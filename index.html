@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Pain Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="card login-card">
+            <div class="card__body">
+                <h1>Patient Pain Management System</h1>
+                <p class="text-secondary">Enter your details to access the system</p>
+                
+                <form id="nameForm" class="form-group">
+                    <label for="nameInput" class="form-label">Patient Name</label>
+                    <input type="text" id="nameInput" class="form-control" placeholder="Enter patient name" required>
+                    <button type="submit" class="btn btn--primary btn--full-width mt-8">Generate Access Code</button>
+                </form>
+
+                <div id="passwordSection" class="hidden mt-8">
+                    <div class="password-display">
+                        <label class="form-label">Your Access Code:</label>
+                        <div id="generatedPassword" class="password-code"></div>
+                    </div>
+                    
+                    <form id="loginForm" class="form-group mt-8">
+                        <label for="passwordInput" class="form-label">Enter Access Code</label>
+                        <input type="number" id="passwordInput" class="form-control" placeholder="Enter 6-digit code" required>
+                        <button type="submit" class="btn btn--primary btn--full-width mt-8">Access System</button>
+                    </form>
+                </div>
+
+                <div id="errorMessage" class="hidden status status--error mt-8"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="mainDashboard" class="hidden main-container">
+        <header class="dashboard-header">
+            <div class="container">
+                <h1>Pain Management Dashboard</h1>
+                <div class="patient-info">
+                    <span id="patientName" class="patient-name"></span>
+                    <button id="logoutBtn" class="btn btn--outline btn--sm">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <main class="container dashboard-content">
+            <!-- Navigation Menu -->
+            <nav class="feature-nav">
+                <button id="recordPainBtn" class="btn btn--primary">Record Pain Episode</button>
+                <button id="doctorNotesBtn" class="btn btn--secondary">Add Doctor's Notes</button>
+                <button id="analyzePainBtn" class="btn btn--secondary">Analyze Pain</button>
+                <button id="exerciseBtn" class="btn btn--secondary">Track Exercises</button>
+                <button id="exportBtn" class="btn btn--outline">Export Data</button>
+            </nav>
+
+            <!-- Content Sections -->
+            <div class="content-area">
+                <!-- Record Pain Episode -->
+                <section id="recordPainSection" class="content-section">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2>Record Pain Episode</h2>
+                            <form id="painForm" class="form-group">
+                                <label for="painLevel" class="form-label">Pain Level (0-10 scale)</label>
+                                <input type="number" id="painLevel" class="form-control" min="0" max="10" placeholder="Enter pain level" required>
+                                <button type="submit" class="btn btn--primary mt-8">Record Episode</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Doctor's Notes -->
+                <section id="doctorNotesSection" class="content-section hidden">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2>Add Doctor's Notes</h2>
+                            <div id="noEpisodesMessage" class="hidden status status--info mb-8">
+                                No pain episodes recorded yet. Please record an episode first.
+                            </div>
+                            <form id="notesForm" class="notes-form">
+                                <div class="form-group">
+                                    <label for="causeInput" class="form-label">Cause of Episode</label>
+                                    <input type="text" id="causeInput" class="form-control" placeholder="Enter cause">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cureInput" class="form-label">Treatment/Cure</label>
+                                    <input type="text" id="cureInput" class="form-control" placeholder="Enter treatment">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Was an injection given?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="injection" value="yes"> Yes
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="injection" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="injectionDetails" class="hidden">
+                                    <div class="form-group">
+                                        <label for="prePain" class="form-label">Pain Level Before Injection (0-10)</label>
+                                        <input type="number" id="prePain" class="form-control" min="0" max="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="postPain" class="form-label">Pain Level After Injection (0-10)</label>
+                                        <input type="number" id="postPain" class="form-control" min="0" max="10">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn--primary">Save Notes</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Pain Analysis -->
+                <section id="analysisSection" class="content-section hidden">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2>Pain Analysis</h2>
+                            <div id="analysisResults" class="analysis-results"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Exercise Tracking -->
+                <section id="exerciseSection" class="content-section hidden">
+                    <div class="card">
+                        <div class="card__body">
+                            <h2>Exercise Tracking</h2>
+                            <form id="exerciseForm" class="form-group">
+                                <label class="form-label">Has the patient completed their exercises today?</label>
+                                <div class="radio-group">
+                                    <label class="radio-label">
+                                        <input type="radio" name="exerciseComplete" value="yes"> Yes
+                                    </label>
+                                    <label class="radio-label">
+                                        <input type="radio" name="exerciseComplete" value="no"> No
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn--primary mt-8">Update Exercise Status</button>
+                            </form>
+                            <div id="exerciseStatus" class="mt-8"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Data Display -->
+                <div class="card mt-8">
+                    <div class="card__body">
+                        <h2>Pain Episodes Log</h2>
+                        <div id="painLogTable" class="table-container">
+                            <p class="text-secondary">No episodes recorded yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notifications -->
+    <div id="notification" class="notification hidden">
+        <div id="notificationContent" class="notification-content"></div>
+        <button id="closeNotification" class="notification-close">&times;</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
